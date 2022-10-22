@@ -2,19 +2,21 @@ package main
 
 import "fmt"
 
-type Person struct {
-	Name string
-	Age  int
-}
+type IPAddr [4]byte
 
-// 实现 Stringer 内的所有方法(String()) 即可 隐式实现 接口 Stringer
-func (p Person) String() string {
-	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+//  给 IPAddr 添加一个 "String() string" 方法
+
+func (I IPAddr) String() string {
+
+	return fmt.Sprintf("%v.%v.%v.%v", I[0], I[1], I[2], I[3])
 }
 
 func main() {
-	a := Person{"quan", 23}
-	b := Person{Name: "sicheng", Age: 27}
-
-	fmt.Println(a, b)
+	hosts := map[string]IPAddr{
+		"loopback":  {127, 0, 0, 1},
+		"googleDNS": {8, 8, 8, 8},
+	}
+	for name, ip := range hosts {
+		fmt.Printf("%v: %v\n", name, ip)
+	}
 }
